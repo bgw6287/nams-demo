@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformer based declipper with temporal feature</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 10px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .author {
+            text-align: center;
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+        }
+        .affiliation {
+            text-align: center;
+            font-size: 16px;
+            margin: 10px 0 20px 0;
+            font-style: italic;
+        }
+        .section_title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 70px 0 20px 0;
+        }
+        .section_exp {
+            text-align: center;
+            font-size: 16px;
+            margin: 20px 0 10px 0;
+        }
+        .abstract {
+            text-align: justify;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+        .big_img {
+            width: 80%;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 1px;
+            background-color: #f2f2f2;
+            font-size: middle;
+        }
+        section {
+            margin: 20px 0;
+        }
+        .content {
+            /* border-top: 2px solid #72A0C1; */
+            padding-top: 10px;
+            margin: 20px 0 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+        .dataset-name {
+            border-top: 2px solid #72A0C1;
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 20px;
+            padding: 10px 0 10px 0;
+        }
+        .sample {
+            flex: 1 1 calc(25% - 20px); /* 모든 열이 5개씩 들어가도록 설정 */
+            box-sizing: border-box;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .room_configuration {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .sample img {
+            max-width: 100%;
+            height: auto;
+        }
+
+	    .figure img {
+            max-width: 80%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        .room img {
+            max-width: 60%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        .spectrogram img {
+            height: 200px;
+            display: left;
+            margin: 0 auto;
+        }
+        .multipoles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 5열로 나누기 */
+            gap: 10px; /* 간격 설정 */
+            padding: 10px;
+        }
+
+
+
+        .sample_multipoles {
+            flex: 1 1 calc(33% - 20px); /* 모든 열이 5개씩 들어가도록 설정 */
+            box-sizing: border-box;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .horizontal-line {
+            height: 3px;
+            background: black;
+            width: 100%;      /* 전체 너비 */
+            flex-shrink: 0;
+            margin: 15px 0;
+        }
+
+        .room_images {
+            display: grid;
+            gap: 20px;
+            width: 100%;
+            justify-items: center;
+        }
+
+        /* 줄 구성 */
+        .room_images > .room_image:nth-child(1),
+        .room_images > .room_image:nth-child(2) {
+            grid-row: 1;
+        }
+
+        .room_images > .room_image:nth-child(3),
+        .room_images > .room_image:nth-child(4),
+        .room_images > .room_image:nth-child(5) {
+            grid-row: 2;
+        }
+
+        .room_images > .room_image:nth-child(6),
+        .room_images > .room_image:nth-child(7),
+        .room_images > .room_image:nth-child(8) {
+            grid-row: 3;
+        }
+
+        /* 열 구성 */
+        .room_images > .room_image:nth-child(1) { grid-column: 2; }
+        .room_images > .room_image:nth-child(2) { grid-column: 3; }
+
+        .room_images > .room_image:nth-child(3) { grid-column: 1; }
+        .room_images > .room_image:nth-child(4) { grid-column: 2; }
+        .room_images > .room_image:nth-child(5) { grid-column: 3; }
+
+        .room_images > .room_image:nth-child(6) { grid-column: 1; }
+        .room_images > .room_image:nth-child(7) { grid-column: 2; }
+        .room_images > .room_image:nth-child(8) { grid-column: 3; }
+
+        .room_images > .room_image img {
+            width: 260px;
+            height: auto;
+            object-fit: contain;
+        }
+        .room_image {
+            text-align: center;
+        }
+
+        .room_image .data_title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+
+        .multipole_images {
+            display: grid;
+            gap: 20px;
+            width: 100%;
+            justify-items: center;
+        }
+
+        /* 줄 구성 */
+        .multipole_images > .multipole_image:nth-child(1),
+        .multipole_images > .multipole_image:nth-child(2),
+        .multipole_images > .multipole_image:nth-child(3) {
+            grid-row: 1;
+        }
+
+        .multipole_images > .multipole_image:nth-child(4),
+        .multipole_images > .multipole_image:nth-child(5),
+        .multipole_images > .multipole_image:nth-child(6) {
+            grid-row: 2;
+        }
+
+        .multipole_images > .multipole_image:nth-child(7),
+        .multipole_images > .multipole_image:nth-child(8),
+        .multipole_images > .multipole_image:nth-child(9) {
+            grid-row: 3;
+        }
+
+        /* 열 구성 */
+        .multipole_images > .multipole_image:nth-child(1) { grid-column: 1; }
+        .multipole_images > .multipole_image:nth-child(2) { grid-column: 2; }
+        .multipole_images > .multipole_image:nth-child(3) { grid-column: 3; }
+
+        .multipole_images > .multipole_image:nth-child(1) { grid-column: 1; }
+        .multipole_images > .multipole_image:nth-child(2) { grid-column: 2; }
+        .multipole_images > .multipole_image:nth-child(3) { grid-column: 3; }
+
+        .multipole_images > .multipole_image:nth-child(1) { grid-column: 1; }
+        .multipole_images > .multipole_image:nth-child(2) { grid-column: 2; }
+        .multipole_images > .multipole_image:nth-child(3) { grid-column: 3; }
+
+        .multipole_images > .multipole_image img {
+            width: 260px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .multipole_image {
+            text-align: center;
+        }
+
+        .multipole_image .data_title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NEURAL ACOUSTIC MULTIPOLE SPLATTING <br> FOR ROOM IMPULSE RESPONSE SYNTHESIS</h1>
+        </header>
+        <p class="author"> <b>Geonwoo Baek</b> and <b>Jung-Woo Choi</b></p>
+        <p class="affiliation">School of Electrical Engineering, KAIST</p>
+        <p style="text-align: center; font-size: 32px;">[
+            <a href="https://arxiv.org/pdf/2509.17410" target="_blank">arXiv</a>
+            ]
+        </p>
+        <p class="section_title">Abstract</p>
+        <p class="abstract"> Room Impulse Response (RIR) prediction at arbitrary receiver positions is essential for practical applications such as spatial audio ren-
+            dering. We propose Neural Acoustic Multipole Splatting (NAMS), which synthesizes RIRs at unseen receiver positions by learning the
+            positions of neural acoustic multipoles and predicting their emitted signals and directivities using a neural network. Representing sound
+            fields through a combination of multipoles offers sufficient flexibility to express complex acoustic scenes while adhering to physical
+            constraints such as the Helmholtz equation. We also introduce a pruning strategy that starts from a dense splatting of neural acoustic multipoles and progressively eliminates redundant ones during training. Experiments conducted on both real and synthetic datasets indicate that the proposed method surpasses previous approaches on most metrics while maintaining rapid inference. Ablation studies reveal that multipole splatting with pruning achieves better performance than the monopole model with just 20% of the poles. </p>
+        <p class="section_title">Framework</p>
+        <div class="figure">
+            <img src="./img/framework.jpg" alt="overall_architecture">
+        </div>
+
+        <!-- <p class="section_title">Performance Table</p>
+        <div class="figure">
+            <img src="./img/performance_table.jpg" alt="performance_table">
+        </div> -->
+
+
+        <p class="section_title">Datasets</p>
+        
+
+        <div class="room_images">
+            <div class="room_image">
+                <div class="data_title">MeshRIR</div>
+                <img src="img/MeshRIR_source_receiver_config1.jpg" alt="MeshRIR">
+            </div>
+        
+            <div class="room_image">
+                <div class="data_title">MeshRIR</div>
+                <img src="img/MeshRIR_source_receiver_config2.jpg" alt="MeshRIR">
+            </div>
+        
+            <!-- 아래는 두 번째 줄 -->
+            <div class="room_image">
+                <div class="data_title">Apartment566</div>
+                <img src="img/apartment566.jpg" alt="Apartment566">
+            </div>
+
+            <div class="room_image">
+                <div class="data_title">Apartment566</div>
+                <img src="img/Apartment566_source_receiver_config1.jpg" alt="Apartment566">
+            </div>
+        
+            <div class="room_image">
+                <div class="data_title">Apartment566</div>
+                <img src="img/Apartment566_source_receiver_config2.jpg" alt="Apartment566">
+            </div>
+        
+        
+            <!-- 세 번째 줄 -->
+            <div class="room_image">
+                <div class="data_title">Apartment716</div>
+                <img src="img/apartment716.jpg" alt="Apartment716">
+            </div>
+        
+            <div class="room_image">
+                <div class="data_title">Apartment716</div>
+                <img src="img/Apartment716_source_receiver_config1.jpg" alt="Apartment716">
+            </div>
+
+            <div class="room_image">
+                <div class="data_title">Apartment716</div>
+                <img src="img/Apartment716_source_receiver_config2.jpg" alt="Apartment716">
+            </div>
+    
+        </div>
+     
+
+        <p class="section_title">Multipoles</p>
+
+        <div class="multipole_images">
+
+            <div class="multipole_image">
+                <div class="data_title">MeshRIR</div>
+                <img src="img/MeshRIR_source_receiver_config1.jpg" alt="MeshRIR">
+            </div>  
+            
+            <div class="multipole_image">
+                <div class="data_title">Intialized multipoles</div>
+                <img src="img/multipoles/img_multipoles_position_init_meshrir.jpg" alt="MeshRIR">
+            </div>
+        
+            <div class="multipole_image">
+                <div class="data_title">Trained multipoles</div>
+                <img src="img/multipoles/img_multipoles_position_final_meshrir.jpg" alt="MeshRIR">
+            </div>
+        
+            <!-- 아래는 두 번째 줄 -->
+            <div class="multipole_image">
+                <div class="data_title">Apartment566</div>
+                <img src="img/apartment566.jpg" alt="Apartment566">
+            </div>
+        
+            <div class="multipole_image">
+                <div class="data_title">Intialized multipoles</div>
+                <img src="img/Apartment566_source_receiver_config1.jpg" alt="Apartment566">
+            </div>
+        
+            <div class="multipole_image">
+                <div class="data_title">Trained multipoles</div>
+                <img src="img/Apartment566_source_receiver_config2.jpg" alt="Apartment566">
+            </div>
+        
+            <!-- 세 번째 줄 -->
+            <div class="multipole_image">
+                <div class="data_title">Apartment716</div>
+                <img src="img/apartment716.jpg" alt="Apartment716">
+            </div>
+        
+            <div class="multipole_image">
+                <div class="data_title">Apartment716</div>
+                <img src="img/Apartment716_source_receiver_config1.jpg" alt="Apartment716">
+            </div>
+        
+            <div class="multipole_image">
+                <div class="data_title">Apartment716</div>
+                <img src="img/Apartment716_source_receiver_config2.jpg" alt="Apartment716">
+            </div>
+        
+        </div>
+
+
+
+        <p class="section_title">RIR samples</p>
+
+        <details>
+            <summary class="dataset-name">MeshRIR</summary>
+            <div class="content">
+ 
+            </div>
+        </details>
+
+        <details>
+            <summary class="dataset-name">Apartment566</summary>
+            <div class="content">
+                <div class="room img">
+                    <div class="Room room_configuration">Configuration 1</div>
+                    <img src="img/apartment566/031/031_room.png" alt="Room">
+                </div>
+
+
+                <div class="sample">
+                    <div class="datasetname">GT</div>
+                    <img src="img/apartment566/031/031_gt_waveform.png" alt="Waveform">
+                </div>
+                <div class="sample">
+                    <div class="data_title">NAMS</div>
+                    <img src="img/apartment566/031/031_nams_waveform.png" alt="Waveform">
+                </div>
+                <div class="sample">
+                    <div class="data_title">AVR</div>
+                    <img src="img/apartment566/031/031_avr_waveform.png" alt="Waveform">
+                </div>
+                <div class="sample">
+                    <div class="data_title">NAF</div>
+                    <img src="img/apartment566/031/031_naf_waveform.png" alt="Waveform">
+                </div>
+            
+                <div class="sample">
+                    <div class="data_title">GT</div>
+                    <img src="img/apartment566/031/031_gt_spectrum.png" alt="Spectrum">
+                </div>
+                <div class="sample">
+                    <div class="data_title">NAMS</div>
+                    <img src="img/apartment566/031/031_nams_spectrum.png" alt="Spectrum">
+                </div>
+                <div class="sample">
+                    <div class="data_title">AVR</div>
+                    <img src="img/apartment566/031/031_avr_spectrum.png" alt="Spectrum">
+                </div>
+                <div class="sample">
+                    <div class="data_title">NAF</div>
+                    <img src="img/apartment566/031/031_naf_spectrum.png" alt="Spectrum">
+                </div>
+
+
+                <div class="sample">
+                    <div class="data_title">GT</div>
+                    <img src="img/apartment566/031/031_gt_spectrogram.png" alt="Spectrogram">
+                </div>
+                <div class="sample">
+                    <div class="data_title">NAMS</div>
+                    <img src="img/apartment566/031/031_nams_spectrogram.png" alt="Spectrogram">
+                </div>
+                <div class="sample">
+                    <div class="data_title">AVR</div>
+                    <img src="img/apartment566/031/031_avr_spectrogram.png" alt="Spectrogram">
+                </div>
+                <div class="sample">
+                    <div class="data_title">NAF</div>
+                    <img src="img/apartment566/031/031_naf_spectrogram.png" alt="Spectrogram">
+                </div>
+
+                <div class="horizontal-line"></div>
+            
+                <div class="content">
+                    <div class="room img">
+                        <div class="Room room_configuration">Configuration 2</div>
+                        <img src="img/apartment566/031/031_room.png" alt="Room">
+                    </div>
+    
+    
+                    <div class="sample">
+                        <div class="data_title">GT</div>
+                        <img src="img/apartment566/031/031_gt_waveform.png" alt="Waveform">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">NAMS</div>
+                        <img src="img/apartment566/031/031_nams_waveform.png" alt="Waveform">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">AVR</div>
+                        <img src="img/apartment566/031/031_avr_waveform.png" alt="Waveform">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">NAF</div>
+                        <img src="img/apartment566/031/031_naf_waveform.png" alt="Waveform">
+                    </div>
+                
+                    <div class="sample">
+                        <div class="data_title">GT</div>
+                        <img src="img/apartment566/031/031_gt_spectrum.png" alt="Spectrum">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">NAMS</div>
+                        <img src="img/apartment566/031/031_nams_spectrum.png" alt="Spectrum">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">AVR</div>
+                        <img src="img/apartment566/031/031_avr_spectrum.png" alt="Spectrum">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">NAF</div>
+                        <img src="img/apartment566/031/031_naf_spectrum.png" alt="Spectrum">
+                    </div>
+    
+                    <div class="sample">
+                        <div class="data_title">GT</div>
+                        <img src="img/apartment566/031/031_gt_spectrogram.png" alt="Spectrogram">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">NAMS</div>
+                        <img src="img/apartment566/031/031_nams_spectrogram.png" alt="Spectrogram">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">AVR</div>
+                        <img src="img/apartment566/031/031_avr_spectrogram.png" alt="Spectrogram">
+                    </div>
+                    <div class="sample">
+                        <div class="data_title">NAF</div>
+                        <img src="img/apartment566/031/031_naf_spectrogram.png" alt="Spectrogram">
+                    </div>
+
+
+              </div>
+            </div>
+          </details>
+
+
+        <footer>
+            <p>&copy; <a href="https://www.sound.kaist.ac.kr/" target="_blank">Smart Sound System Lab.</a></p>
+        </footer>
+    </div>
+</body>
+</html>
