@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transformer based declipper with temporal feature</title>
+    <title>NEURAL ACOUSTIC MULTIPOLE SPLATTING</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -287,6 +287,7 @@
                 <div class="data_title">MeshRIR</div>
                 <img src="img/MeshRIR_source_receiver_config2.jpg" alt="MeshRIR">
             </div>
+            
         
             <!-- 아래는 두 번째 줄 -->
             <div class="room_image">
@@ -351,12 +352,12 @@
         
             <div class="multipole_image">
                 <div class="data_title">Intialized multipoles</div>
-                <img src="img/Apartment566_source_receiver_config1.jpg" alt="Apartment566">
+                <img src="img/multipoles/img_multipoles_position_init_apartment566.jpg" alt="Apartment566">
             </div>
         
             <div class="multipole_image">
                 <div class="data_title">Trained multipoles</div>
-                <img src="img/Apartment566_source_receiver_config2.jpg" alt="Apartment566">
+                <img src="img/multipoles/img_multipoles_position_final_apartment566.jpg" alt="Apartment566">
             </div>
         
             <!-- 세 번째 줄 -->
@@ -366,13 +367,13 @@
             </div>
         
             <div class="multipole_image">
-                <div class="data_title">Apartment716</div>
-                <img src="img/Apartment716_source_receiver_config1.jpg" alt="Apartment716">
+                <div class="data_title">Intialized multipoles</div>
+                <img src="img/multipoles/img_multipoles_position_init_apartment716.jpg" alt="Apartment716">
             </div>
         
             <div class="multipole_image">
-                <div class="data_title">Apartment716</div>
-                <img src="img/Apartment716_source_receiver_config2.jpg" alt="Apartment716">
+                <div class="data_title">Trained multipoles</div>
+                <img src="img/multipoles/img_multipoles_position_final_apartment716.jpg" alt="Apartment716">
             </div>
         
         </div>
@@ -393,60 +394,60 @@
             <div class="content">
                 <div class="room img">
                     <div class="Room room_configuration">Configuration 1</div>
-                    <img src="img/apartment566/031/031_room.png" alt="Room">
+                    <img src="img/apartment566/config1/config.png" alt="Room">
                 </div>
 
 
                 <div class="sample">
                     <div class="datasetname">GT</div>
-                    <img src="img/apartment566/031/031_gt_waveform.png" alt="Waveform">
+                    <img src="img/apartment566/config1/gt_waveform.png" alt="Waveform">
                 </div>
                 <div class="sample">
                     <div class="data_title">NAMS</div>
-                    <img src="img/apartment566/031/031_nams_waveform.png" alt="Waveform">
+                    <img src="img/apartment566/config1/nams_waveform.png" alt="Waveform">
                 </div>
                 <div class="sample">
                     <div class="data_title">AVR</div>
-                    <img src="img/apartment566/031/031_avr_waveform.png" alt="Waveform">
+                    <img src="img/apartment566/config1/avr_waveform.png" alt="Waveform">
                 </div>
                 <div class="sample">
                     <div class="data_title">NAF</div>
-                    <img src="img/apartment566/031/031_naf_waveform.png" alt="Waveform">
+                    <img src="img/apartment566/config1/naf_waveform.png" alt="Waveform">
                 </div>
             
                 <div class="sample">
                     <div class="data_title">GT</div>
-                    <img src="img/apartment566/031/031_gt_spectrum.png" alt="Spectrum">
+                    <img src="img/apartment566/config1/gt_spectrum.png" alt="Spectrum">
                 </div>
                 <div class="sample">
                     <div class="data_title">NAMS</div>
-                    <img src="img/apartment566/031/031_nams_spectrum.png" alt="Spectrum">
+                    <img src="img/apartment566/config1/nams_spectrum.png" alt="Spectrum">
                 </div>
                 <div class="sample">
                     <div class="data_title">AVR</div>
-                    <img src="img/apartment566/031/031_avr_spectrum.png" alt="Spectrum">
+                    <img src="img/apartment566/config1/avr_spectrum.png" alt="Spectrum">
                 </div>
                 <div class="sample">
                     <div class="data_title">NAF</div>
-                    <img src="img/apartment566/031/031_naf_spectrum.png" alt="Spectrum">
+                    <img src="img/apartment566/config1/naf_spectrum.png" alt="Spectrum">
                 </div>
 
 
                 <div class="sample">
                     <div class="data_title">GT</div>
-                    <img src="img/apartment566/031/031_gt_spectrogram.png" alt="Spectrogram">
+                    <img src="img/apartment566/config1/gt_spectrogram.png" alt="Spectrogram">
                 </div>
                 <div class="sample">
                     <div class="data_title">NAMS</div>
-                    <img src="img/apartment566/031/031_nams_spectrogram.png" alt="Spectrogram">
+                    <img src="img/apartment566/config1/nams_spectrogram.png" alt="Spectrogram">
                 </div>
                 <div class="sample">
                     <div class="data_title">AVR</div>
-                    <img src="img/apartment566/031/031_avr_spectrogram.png" alt="Spectrogram">
+                    <img src="img/apartment566/config1/avr_spectrogram.png" alt="Spectrogram">
                 </div>
                 <div class="sample">
                     <div class="data_title">NAF</div>
-                    <img src="img/apartment566/031/031_naf_spectrogram.png" alt="Spectrogram">
+                    <img src="img/apartment566/config1/naf_spectrogram.png" alt="Spectrogram">
                 </div>
 
                 <div class="horizontal-line"></div>
@@ -454,65 +455,79 @@
                 <div class="content">
                     <div class="room img">
                         <div class="Room room_configuration">Configuration 2</div>
-                        <img src="img/apartment566/031/031_room.png" alt="Room">
+                        <img src="img/apartment566/config2/config.png" alt="Room">
                     </div>
     
     
+
                     <div class="sample">
-                        <div class="data_title">GT</div>
-                        <img src="img/apartment566/031/031_gt_waveform.png" alt="Waveform">
+                        <div class="datasetname">GT</div>
+                        <img src="img/apartment566/config2/gt_waveform.png" alt="Waveform">
                     </div>
                     <div class="sample">
                         <div class="data_title">NAMS</div>
-                        <img src="img/apartment566/031/031_nams_waveform.png" alt="Waveform">
+                        <img src="img/apartment566/config2/nams_waveform.png" alt="Waveform">
                     </div>
                     <div class="sample">
                         <div class="data_title">AVR</div>
-                        <img src="img/apartment566/031/031_avr_waveform.png" alt="Waveform">
+                        <img src="img/apartment566/config2/avr_waveform.png" alt="Waveform">
                     </div>
                     <div class="sample">
                         <div class="data_title">NAF</div>
-                        <img src="img/apartment566/031/031_naf_waveform.png" alt="Waveform">
+                        <img src="img/apartment566/config2/naf_waveform.png" alt="Waveform">
                     </div>
                 
                     <div class="sample">
                         <div class="data_title">GT</div>
-                        <img src="img/apartment566/031/031_gt_spectrum.png" alt="Spectrum">
+                        <img src="img/apartment566/config2/gt_spectrum.png" alt="Spectrum">
                     </div>
                     <div class="sample">
                         <div class="data_title">NAMS</div>
-                        <img src="img/apartment566/031/031_nams_spectrum.png" alt="Spectrum">
+                        <img src="img/apartment566/config2/nams_spectrum.png" alt="Spectrum">
                     </div>
                     <div class="sample">
                         <div class="data_title">AVR</div>
-                        <img src="img/apartment566/031/031_avr_spectrum.png" alt="Spectrum">
+                        <img src="img/apartment566/config2/avr_spectrum.png" alt="Spectrum">
                     </div>
                     <div class="sample">
                         <div class="data_title">NAF</div>
-                        <img src="img/apartment566/031/031_naf_spectrum.png" alt="Spectrum">
+                        <img src="img/apartment566/config2/naf_spectrum.png" alt="Spectrum">
                     </div>
+    
     
                     <div class="sample">
                         <div class="data_title">GT</div>
-                        <img src="img/apartment566/031/031_gt_spectrogram.png" alt="Spectrogram">
+                        <img src="img/apartment566/config2/gt_spectrogram.png" alt="Spectrogram">
                     </div>
                     <div class="sample">
                         <div class="data_title">NAMS</div>
-                        <img src="img/apartment566/031/031_nams_spectrogram.png" alt="Spectrogram">
+                        <img src="img/apartment566/config2/nams_spectrogram.png" alt="Spectrogram">
                     </div>
                     <div class="sample">
                         <div class="data_title">AVR</div>
-                        <img src="img/apartment566/031/031_avr_spectrogram.png" alt="Spectrogram">
+                        <img src="img/apartment566/config2/avr_spectrogram.png" alt="Spectrogram">
                     </div>
                     <div class="sample">
                         <div class="data_title">NAF</div>
-                        <img src="img/apartment566/031/031_naf_spectrogram.png" alt="Spectrogram">
+                        <img src="img/apartment566/config2/naf_spectrogram.png" alt="Spectrogram">
                     </div>
+    
 
 
               </div>
             </div>
           </details>
+
+
+          <details>
+              <summary class="dataset-name">Apartment716</summary>
+              <div class="content">
+   
+              </div>
+          </details>
+  
+
+
 
 
         <footer>
